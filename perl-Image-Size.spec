@@ -4,7 +4,7 @@
 #
 Name     : perl-Image-Size
 Version  : 3.300
-Release  : 2
+Release  : 3
 URL      : https://cpan.metacpan.org/authors/id/R/RJ/RJRAY/Image-Size-3.300.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/R/RJ/RJRAY/Image-Size-3.300.tar.gz
 Source1  : http://http.debian.net/debian/pool/main/libi/libimage-size-perl/libimage-size-perl_3.300-1.debian.tar.xz
