@@ -4,11 +4,11 @@
 #
 Name     : perl-Image-Size
 Version  : 3.300
-Release  : 10
+Release  : 11
 URL      : https://cpan.metacpan.org/authors/id/R/RJ/RJRAY/Image-Size-3.300.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/R/RJ/RJRAY/Image-Size-3.300.tar.gz
 Source1  : http://http.debian.net/debian/pool/main/libi/libimage-size-perl/libimage-size-perl_3.300-1.debian.tar.xz
-Summary  : 'A library to extract height/width from images'
+Summary  : Read the dimensions of an image in several popular formats
 Group    : Development/Tools
 License  : Artistic-1.0-Perl LGPL-2.1
 Requires: perl-Image-Size-bin = %{version}-%{release}
@@ -24,7 +24,6 @@ Image::Size - Determine the size of images in several common formats
 Summary: bin components for the perl-Image-Size package.
 Group: Binaries
 Requires: perl-Image-Size-license = %{version}-%{release}
-Requires: perl-Image-Size-man = %{version}-%{release}
 
 %description bin
 bin components for the perl-Image-Size package.
@@ -35,6 +34,7 @@ Summary: dev components for the perl-Image-Size package.
 Group: Development
 Requires: perl-Image-Size-bin = %{version}-%{release}
 Provides: perl-Image-Size-devel = %{version}-%{release}
+Requires: perl-Image-Size = %{version}-%{release}
 
 %description dev
 dev components for the perl-Image-Size package.
@@ -61,7 +61,7 @@ man components for the perl-Image-Size package.
 cd ..
 %setup -q -T -D -n Image-Size-3.300 -b 1
 mkdir -p deblicense/
-mv %{_topdir}/BUILD/debian/* %{_topdir}/BUILD/Image-Size-3.300/deblicense/
+cp -r %{_topdir}/BUILD/debian/* %{_topdir}/BUILD/Image-Size-3.300/deblicense/
 
 %build
 export http_proxy=http://127.0.0.1:9/
