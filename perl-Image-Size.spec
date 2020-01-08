@@ -4,16 +4,17 @@
 #
 Name     : perl-Image-Size
 Version  : 3.300
-Release  : 11
+Release  : 12
 URL      : https://cpan.metacpan.org/authors/id/R/RJ/RJRAY/Image-Size-3.300.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/R/RJ/RJRAY/Image-Size-3.300.tar.gz
 Source1  : http://http.debian.net/debian/pool/main/libi/libimage-size-perl/libimage-size-perl_3.300-1.debian.tar.xz
-Summary  : Read the dimensions of an image in several popular formats
+Summary  : 'A library to extract height/width from images'
 Group    : Development/Tools
 License  : Artistic-1.0-Perl LGPL-2.1
 Requires: perl-Image-Size-bin = %{version}-%{release}
 Requires: perl-Image-Size-license = %{version}-%{release}
 Requires: perl-Image-Size-man = %{version}-%{release}
+Requires: perl-Image-Size-perl = %{version}-%{release}
 BuildRequires : buildreq-cpan
 
 %description
@@ -56,18 +57,28 @@ Group: Default
 man components for the perl-Image-Size package.
 
 
+%package perl
+Summary: perl components for the perl-Image-Size package.
+Group: Default
+Requires: perl-Image-Size = %{version}-%{release}
+
+%description perl
+perl components for the perl-Image-Size package.
+
+
 %prep
 %setup -q -n Image-Size-3.300
-cd ..
-%setup -q -T -D -n Image-Size-3.300 -b 1
+cd %{_builddir}
+tar xf %{_sourcedir}/libimage-size-perl_3.300-1.debian.tar.xz
+cd %{_builddir}/Image-Size-3.300
 mkdir -p deblicense/
-cp -r %{_topdir}/BUILD/debian/* %{_topdir}/BUILD/Image-Size-3.300/deblicense/
+cp -r %{_builddir}/debian/* %{_builddir}/Image-Size-3.300/deblicense/
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
+export LANG=C.UTF-8
 if test -f Makefile.PL; then
 %{__perl} Makefile.PL
 make  %{?_smp_mflags}
@@ -77,7 +88,7 @@ else
 fi
 
 %check
-export LANG=C
+export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
@@ -86,7 +97,7 @@ make TEST_VERBOSE=1 test
 %install
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/perl-Image-Size
-cp deblicense/copyright %{buildroot}/usr/share/package-licenses/perl-Image-Size/deblicense_copyright
+cp %{_builddir}/Image-Size-3.300/deblicense/copyright %{buildroot}/usr/share/package-licenses/perl-Image-Size/dacd5d96ba4b6fd7caeb5be9d910b0a2377421a2
 if test -f Makefile.PL; then
 make pure_install PERL_INSTALL_ROOT=%{buildroot} INSTALLDIRS=vendor
 else
@@ -99,7 +110,6 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files
 %defattr(-,root,root,-)
-/usr/lib/perl5/vendor_perl/5.28.2/Image/Size.pm
 
 %files bin
 %defattr(-,root,root,-)
@@ -111,8 +121,12 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/perl-Image-Size/deblicense_copyright
+/usr/share/package-licenses/perl-Image-Size/dacd5d96ba4b6fd7caeb5be9d910b0a2377421a2
 
 %files man
 %defattr(0644,root,root,0755)
 /usr/share/man/man1/imgsize.1
+
+%files perl
+%defattr(-,root,root,-)
+/usr/lib/perl5/vendor_perl/5.30.1/Image/Size.pm
